@@ -27,3 +27,25 @@
   align-items: center;
   height: 100vh;
 }
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+.retry-button {
+  background-color: #6366f1;
+  color: #f8fafc;
+  padding: 8px;
+  font-family: 'Roboto';
+  font-size: 12x;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}

@@ -2,6 +2,7 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import UserProfileDetails from '../UserProfileDetails'
+
 import './index.css'
 
 const apiStatusConstants = {
@@ -13,8 +14,8 @@ const apiStatusConstants = {
 
 class UserProfile extends Component {
   state = {
-    apiStatus: apiStatusConstants.initial,
     profileDetails: [],
+    apiStatus: apiStatusConstants.initial,
   }
 
   componentDidMount() {
@@ -32,23 +33,42 @@ class UserProfile extends Component {
       method: 'GET',
     }
     const response = await fetch(apiUrl, options)
-    const data= await response.json()
-    const fetchedData = 
+    if (response.ok === true) {
+      const fetchedData = await response.json()
+      const updatedData = {
+        name: fetchedData.profile_details.name,
+        profileImageUrl: fetchedData.profile_details.profile_image_url,
+        shortBio: fetchedData.profile_details.short_bio,
+      }
+      this.setState({
+        profileDetails: updatedData,
+        apiStatus: apiStatusConstants.success,
+      })
+    }
+    if (response.status === 401) {
+      this.setState({
+        apiStatus: apiStatusConstants.failure,
+      })
+    }
+  }
 
-  renderDetails = () => {
+  renderSuccess = () => {
     const {profileDetails} = this.state
+
     return (
-      <div>
-        {profileDetails.map(profile => (
-          <UserProfileDetails userDetails={profile} />
-        ))}
-      </div>
+      <>
+        <UserProfileDetails userDetails={profileDetails} />
+      </>
     )
   }
 
   renderFailure = () => (
-    <div className="failure-container">
-      <button className="retry-button" type="button">
+    <div className="button-container">
+      <button
+        className="retry-button"
+        type="button"
+        onClick={this.getProfileDetails}
+      >
         Retry
       </button>
     </div>
@@ -60,23 +80,23 @@ class UserProfile extends Component {
     </div>
   )
 
-  renderUserProfileDetails = () => {
+  renderProfileDetails = () => {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderDetails()
+        return this.renderSuccess()
       case apiStatusConstants.failure:
         return this.renderFailure()
-      case apiStatusConstants.inProgress:
+      case apiStatusConstants.loading:
         return this.renderLoadingView()
       default:
         return null
     }
   }
 
-  render(){
-      <div>{this.renderUserProfileDetails()}</div>
+  render() {
+    return <div>{this.renderProfileDetails()}</div>
   }
 }
 export default UserProfile

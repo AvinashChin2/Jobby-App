@@ -1,0 +1,54 @@
+.jobs-list-container-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.search-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #7e858e;
+  border-radius: 5px;
+  width: 40%;
+}
+.input-box {
+  background-color: transparent;
+  color: #cbd5e1;
+  font-family: 'Roboto';
+  font-size: 12px;
+  outline: none;
+  border: none;
+  width: 100%;
+}
+.failure-image {
+  height: 50px;
+  width: 50px;
+}
+.search-icon {
+  background-color: #272727;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+.icon {
+  color: #cbd5e1;
+  font-weight: 0px;
+  font-size: 14px;
+}
+.cards-list {
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin-right: 40px;
+}
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

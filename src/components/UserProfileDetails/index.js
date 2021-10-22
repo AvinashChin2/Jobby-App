@@ -7,7 +7,7 @@ const UserProfileDetails = props => {
     <div className="profile-container">
       <img src={profileImageUrl} alt={name} className="profile-image" />
       <h1 className="username">{name}</h1>
-      <p>{shortBio}</p>
+      <p className="short-bio">{shortBio}</p>
     </div>
   )
 }
