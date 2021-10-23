@@ -74,8 +74,8 @@ class JobsList extends Component {
   )
 
   renderLoading = () => (
-    <div className="loader-container">
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
+    <div className="loader-container" testid="loader">
+      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   )
 
@@ -106,14 +106,45 @@ class JobsList extends Component {
     }
   }
 
+  onChangeInput = event => {
+    this.setState({searchInput: event.target.value})
+  }
+
+  onClickButton = () => {
+    const {searchInput, jobsList} = this.state
+    const searchResults = jobsList.filter(eachJob =>
+      eachJob.title.toLowerCase().includes(searchInput.toLowerCase()),
+    )
+    console.log(searchResults)
+    return (
+      <ul className="cards-list">
+        {searchResults.map(job => (
+          <JobCard jobCardDetails={job} key={job.id} />
+        ))}
+      </ul>
+    )
+  }
+
   render() {
+    const {searchInput} = this.state
     return (
       <div className="jobs-list-container-main">
         <div className="search-container">
-          <input type="search" placeholder="Search" className="input-box" />
-          <div className="search-icon">
+          <input
+            type="search"
+            placeholder="Search"
+            className="input-box"
+            testid="searchButton"
+            value={searchInput}
+            onChange={this.onChangeInput}
+          />
+          <button
+            className="search-icon"
+            type="button"
+            onClick={this.onClickButton}
+          >
             <AiOutlineSearch className="icon" />
-          </div>
+          </button>
         </div>
         {this.renderJobsList()}
       </div>
