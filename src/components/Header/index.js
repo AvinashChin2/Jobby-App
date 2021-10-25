@@ -13,7 +13,7 @@ const Header = props => {
     <nav className="nav-container">
       <ul className="nav-items">
         <Link to="/">
-          <li>
+          <li className="logo-list">
             <img
               src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
               alt="website logo"

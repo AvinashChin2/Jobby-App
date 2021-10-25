@@ -24,6 +24,12 @@
   height: 50px;
   width: 50px;
 }
+.failure-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .search-icon {
   background-color: #272727;
   padding: 8px;
@@ -55,4 +61,25 @@
 }
 .search-list {
   list-style: none;
+}
+.failure-heading {
+  color: #cbd5e1;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: 'Roboto';
+}
+.para-failure {
+  color: #cbd5e1;
+  font-size: 16px;
+  font-family: 'Roboto';
+  font-weight: 500;
+}
+.retry-button {
+  background-color: #6366f1;
+  color: #f8fafc;
+  font-family: 'Roboto';
+  font-size: 10px;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
 }

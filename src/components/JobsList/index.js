@@ -70,6 +70,13 @@ class JobsList extends Component {
         alt="failure view"
         className="failure-image"
       />
+      <h1 className="failure-heading">Oops! Something Went Wrong</h1>
+      <p className="para-failure">
+        We cannot seem to find the page you are looking for.
+      </p>
+      <button className="retry-button" type="button" onClick={this.getJobsList}>
+        Retry
+      </button>
     </div>
   )
 

@@ -1,0 +1,17 @@
+.skill-card-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 30%;
+  margin-bottom: 30px;
+}
+.skill-image {
+  height: 50px;
+  width: 50px;
+}
+.skill-name {
+  color: #cbd5e1;
+  font-family: 'Roboto';
+  font-size: 12px;
+  margin-left: 10px;
+}

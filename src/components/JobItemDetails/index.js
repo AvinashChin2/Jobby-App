@@ -2,6 +2,10 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import Header from '../Header'
+import JobItemPops from '../JobItemProps'
+import SkillProps from '../SkillProps'
+import LacProps from '../LacProps'
+import SimilarJobsItem from '../SimilarJobsItem'
 
 import './index.css'
 
@@ -17,27 +21,14 @@ class JobItemDetails extends Component {
     apiStatus: apiStatusConstants.initial,
     jobItemDetails: {},
     similarJobsData: [],
+    skills: [],
+    lifeAtCompany: {},
     quantity: 1,
   }
 
   componentDidMount() {
     this.getJobItemDetails()
   }
-
-  getFormattedData = data => ({
-    companyLogoUrl: data.company_logo_url,
-    companyWebsiteUrl: data.company_website_url,
-    employmentType: data.employment_type,
-    id: data.id,
-    jobDescription: data.job_description,
-    location: data.location,
-    packagePerAnnum: data.package_per_annum,
-    rating: data.rating,
-    imageUrl: data.image_url,
-    name: data.name,
-    description: data.description,
-    lifeImageUrl: data.image_url,
-  })
 
   getJobItemDetails = async () => {
     const {match} = this.props
@@ -55,20 +46,79 @@ class JobItemDetails extends Component {
     const response = await fetch(apiUrl, options)
     if (response.ok === true) {
       const fetchedData = await response.json()
-      const updatedData = this.getFormattedData(fetchedData)
-      const updatedSimilarJobs = fetchedData.similar_jobs.map(eachSimilarJob =>
-        this.getFormattedData(eachSimilarJob),
-      )
+      const updatedData = {
+        companyLogoUrl: fetchedData.job_details.company_logo_url,
+        companyWebsiteUrl: fetchedData.job_details.company_website_url,
+        employmentType: fetchedData.job_details.employment_type,
+        title: fetchedData.job_details.title,
+        id: fetchedData.job_details.id,
+        jobDescription: fetchedData.job_details.job_description,
+        location: fetchedData.job_details.location,
+        packagePerAnnum: fetchedData.job_details.package_per_annum,
+        rating: fetchedData.job_details.rating,
+      }
+      const updatedSkills = fetchedData.job_details.skills.map(skill => ({
+        skillImageUrl: skill.image_url,
+        skillName: skill.name,
+      }))
+      const updatedLifeAtCompany = {
+        lifeDescription: fetchedData.job_details.life_at_company.description,
+        lifeImageUrl: fetchedData.job_details.life_at_company.image_url,
+      }
+      const updatedSimilarJobs = fetchedData.similar_jobs.map(similarJob => ({
+        companyLogoUrl: similarJob.company_logo_url,
+        employmentType: similarJob.employment_type,
+        id: similarJob.id,
+        jobDescription: similarJob.job_description,
+        location: similarJob.location,
+        rating: similarJob.rating,
+        title: similarJob.title,
+      }))
       this.setState({
-        jobItemDetails: updatedData,
-        similarJobsData: updatedSimilarJobs,
         apiStatus: apiStatusConstants.success,
+        jobItemDetails: updatedData,
+        skills: updatedSkills,
+        lifeAtCompany: updatedLifeAtCompany,
+        similarJobsData: updatedSimilarJobs,
       })
-      console.log(updatedData)
     }
+
     if (response.ok === 404) {
       this.setState({apiStatus: apiStatusConstants.failure})
     }
+  }
+
+  renderSuccess = () => {
+    const {jobItemDetails, skills, lifeAtCompany, similarJobsData} = this.state
+    console.log(similarJobsData)
+    return (
+      <div className="detail-container">
+        <div className="total-content">
+          <JobItemPops jobFullDetails={jobItemDetails} skillDetails={skills} />
+          <h1 className="skill-title">Skills</h1>
+          <div className="all-skills">
+            {skills.map(skill => (
+              <SkillProps skillDetails={skill} />
+            ))}
+          </div>
+          <h1 className="lac-title">Life at Company</h1>
+          <div className="all-lac">
+            <LacProps lacDetails={lifeAtCompany} />
+          </div>
+        </div>
+        <div className="similar-job-container">
+          <h1 className="similar-title">Similar Jobs</h1>
+          <div className="similar-jobs-list">
+            {similarJobsData.map(eachSimilar => (
+              <SimilarJobsItem
+                similarJobsDetails={eachSimilar}
+                key={eachSimilar.id}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
   }
 
   renderLoading = () => (
