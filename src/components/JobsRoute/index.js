@@ -1,6 +1,7 @@
 import Header from '../Header'
 import UserProfile from '../UserProfile'
 import JobsList from '../JobsList'
+import Filters from '../Filters'
 import './index.css'
 
 const JobsRoute = () => (
@@ -11,6 +12,7 @@ const JobsRoute = () => (
         <div className="left-container">
           <UserProfile />
           <hr className="line" />
+          <Filters />
         </div>
         <div className="right-container">
           <JobsList />

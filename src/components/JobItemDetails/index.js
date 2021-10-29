@@ -85,26 +85,26 @@ class JobItemDetails extends Component {
 
     if (response.ok === 404) {
       this.setState({apiStatus: apiStatusConstants.failure})
+      this.renderFailure()
     }
   }
 
   renderSuccess = () => {
     const {jobItemDetails, skills, lifeAtCompany, similarJobsData} = this.state
-    console.log(similarJobsData)
     return (
       <div className="detail-container">
         <div className="total-content">
           <JobItemPops jobFullDetails={jobItemDetails} skillDetails={skills} />
           <h1 className="skill-title">Skills</h1>
-          <div className="all-skills">
+          <li className="all-skills">
             {skills.map(skill => (
               <SkillProps skillDetails={skill} />
             ))}
-          </div>
+          </li>
           <h1 className="lac-title">Life at Company</h1>
-          <div className="all-lac">
+          <li className="all-lac">
             <LacProps lacDetails={lifeAtCompany} />
-          </div>
+          </li>
         </div>
         <div className="similar-job-container">
           <h1 className="similar-title">Similar Jobs</h1>
@@ -124,6 +124,27 @@ class JobItemDetails extends Component {
   renderLoading = () => (
     <div className="loader-container" testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    </div>
+  )
+
+  renderFailure = () => (
+    <div className="failure-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
+        alt="failure view"
+        className="failure-image"
+      />
+      <h1 className="failure-heading">Oops! Something Went Wrong</h1>
+      <p className="failure-para">
+        we cannot seem to find the page you are looking for
+      </p>
+      <button
+        className="retry-button"
+        type="button"
+        onClick={this.getJobItemDetails}
+      >
+        Retry
+      </button>
     </div>
   )
 

@@ -1,4 +1,3 @@
-import {Link} from 'react-router-dom'
 import {FaStar} from 'react-icons/fa'
 import {IoLocationSharp} from 'react-icons/io5'
 import {BsBriefcaseFill, BsBoxArrowUpRight} from 'react-icons/bs'
@@ -20,7 +19,11 @@ const JobItemProps = props => {
   return (
     <div className="card-container">
       <div className="title-container">
-        <img src={companyLogoUrl} alt="company logo" className="logo-image" />
+        <img
+          src={companyLogoUrl}
+          alt="job details company logo"
+          className="logo-image"
+        />
         <div className="title-rating-container">
           <h1 className="title">{title}</h1>
           <div className="rating-container">
@@ -47,16 +50,13 @@ const JobItemProps = props => {
       <hr className="line" />
       <div className="description-container">
         <div className="description-visit">
-          <p className="description-title">Description</p>
-
-          <Link to={companyWebsiteUrl} className="link">
-            <p className="visit">
-              Visit
-              <span>
-                <BsBoxArrowUpRight className="arrow" />
-              </span>
-            </p>
-          </Link>
+          <h1 className="description-title">Description</h1>
+          <a href={companyWebsiteUrl} className="visit">
+            Visit
+            <span>
+              <BsBoxArrowUpRight className="arrow" />
+            </span>
+          </a>
         </div>
         <p className="job-description">{jobDescription}</p>
       </div>

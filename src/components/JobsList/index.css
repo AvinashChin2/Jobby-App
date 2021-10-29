@@ -11,7 +11,7 @@
   border-radius: 5px;
   width: 40%;
 }
-.input-box {
+.search-input-box {
   background-color: transparent;
   color: #cbd5e1;
   font-family: 'Roboto';
@@ -19,6 +19,7 @@
   outline: none;
   border: none;
   width: 100%;
+  padding-left: 10px;
 }
 .failure-image {
   height: 50px;
@@ -82,4 +83,28 @@
   padding: 5px;
   cursor: pointer;
   border-radius: 5px;
+}
+.no-jobs-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.no-jobs-image {
+  margin-top: 80px;
+  height: 300px;
+  width: 400px;
+}
+.failure-heading {
+  color: #cbd5e1;
+  font-size: 16px;
+  font-family: 'Roboto';
+  font-weight: bold;
+  margin-top: 10px;
+}
+.failure-para {
+  color: #cbd5e1;
+  font-size: 12px;
+  font-family: 'Roboto';
+  font-weight: 400;
 }

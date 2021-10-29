@@ -63,3 +63,34 @@
   flex-direction: row;
   justify-content: space-around;
 }
+.failure-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.failure-image {
+  height: 300px;
+  width: 340px;
+}
+.failure-heading {
+  color: #cbd5e1;
+  font-family: 'Roboto';
+  font-size: 20px;
+  font-weight: bold;
+}
+.failure-para {
+  color: #cbd5e1;
+  font-family: 'Roboto';
+  font-size: 13px;
+  font-weight: 400;
+}
+.retry-button {
+  background-color: #6366f1;
+  color: #f8fafc;
+  font-family: 'Roboto';
+  font-size: 10px;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}

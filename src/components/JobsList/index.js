@@ -17,7 +17,6 @@ class JobsList extends Component {
     searchInput: '',
     jobsList: [],
     apiStatus: apiStatusConstants.initial,
-    quantity: 1,
   }
 
   componentDidMount() {
@@ -49,7 +48,6 @@ class JobsList extends Component {
         rating: eachItem.rating,
         title: eachItem.title,
       }))
-      console.log(updatedData)
       this.setState({
         jobsList: updatedData,
         apiStatus: apiStatusConstants.success,
@@ -87,12 +85,46 @@ class JobsList extends Component {
   )
 
   renderSuccess = () => {
-    const {jobsList} = this.state
+    const {jobsList, searchInput} = this.state
+    const searchResults = jobsList.filter(eachJob =>
+      eachJob.title.toLowerCase().includes(searchInput.toLowerCase()),
+    )
+    const quantityList = jobsList.length > 0
 
+    return quantityList ? (
+      <ul className="cards-list">
+        {searchResults.map(eachData => (
+          <JobCard jobCardDetails={eachData} key={eachData.id} />
+        ))}
+      </ul>
+    ) : (
+      <div className="no-jobs-container">
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+          alt="no jobs"
+          className="no-jobs-image"
+        />
+        <h1 className="failure-heading">No Jobs Found</h1>
+        <p className="failure-para">
+          We could not found any jobs.Try other filters
+        </p>
+      </div>
+    )
+  }
+
+  onChangeInput = event => {
+    this.setState({searchInput: event.target.value})
+  }
+
+  onClickButton = () => {
+    const {searchInput, jobsList} = this.state
+    const searchResults = jobsList.filter(eachJob =>
+      eachJob.title.toLowerCase().includes(searchInput.toLowerCase()),
+    )
     return (
       <ul className="cards-list">
-        {jobsList.map(eachData => (
-          <JobCard jobCardDetails={eachData} key={eachData.id} />
+        {searchResults.map(job => (
+          <JobCard jobCardDetails={job.name} key={job.id} />
         ))}
       </ul>
     )
@@ -113,25 +145,6 @@ class JobsList extends Component {
     }
   }
 
-  onChangeInput = event => {
-    this.setState({searchInput: event.target.value})
-  }
-
-  onClickButton = () => {
-    const {searchInput, jobsList} = this.state
-    const searchResults = jobsList.filter(eachJob =>
-      eachJob.title.toLowerCase().includes(searchInput.toLowerCase()),
-    )
-    console.log(searchResults)
-    return (
-      <ul className="cards-list">
-        {searchResults.map(job => (
-          <JobCard jobCardDetails={job} key={job.id} />
-        ))}
-      </ul>
-    )
-  }
-
   render() {
     const {searchInput} = this.state
     return (
@@ -140,15 +153,15 @@ class JobsList extends Component {
           <input
             type="search"
             placeholder="Search"
-            className="input-box"
-            testid="searchButton"
+            className="search-input-box"
             value={searchInput}
             onChange={this.onChangeInput}
           />
           <button
             className="search-icon"
             type="button"
-            onClick={this.onClickButton}
+            testid="searchButton"
+            onClick={this.getJobsList}
           >
             <AiOutlineSearch className="icon" />
           </button>

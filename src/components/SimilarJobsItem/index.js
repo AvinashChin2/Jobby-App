@@ -15,9 +15,13 @@ const SimilarJobsItem = props => {
     title,
   } = similarJobsDetails
   return (
-    <div className="similar-job-card">
+    <li className="similar-job-card">
       <div className="title-container">
-        <img src={companyLogoUrl} alt={title} className="similar-image" />
+        <img
+          src={companyLogoUrl}
+          alt="similar job company logo"
+          className="similar-image"
+        />
         <div className="title-rating-container">
           <h1 className="similar-name">{title}</h1>
           <div className="rating-container">
@@ -40,7 +44,7 @@ const SimilarJobsItem = props => {
           <p className="similar-employment">{employmentType}</p>
         </div>
       </div>
-    </div>
+    </li>
   )
 }
 export default SimilarJobsItem
