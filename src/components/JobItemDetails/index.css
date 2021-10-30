@@ -1,4 +1,4 @@
-.loader-container {
+.jobs-details-loader-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,14 +10,15 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 95px;
-  padding-right: 95px;
+  padding-left: 35px;
+  padding-right: 35px;
 }
 .total-content {
   background-color: #272727;
   align-items: center;
   border-radius: 15px;
   width: 100%;
+  padding-left: 0px;
 }
 .skill-title {
   color: #cbd5e1;
@@ -40,6 +41,7 @@
   flex-direction: row;
   justify-content: space-around;
   margin-bottom: 30px;
+  padding-left: 0px;
 }
 .lac-title {
   color: #cbd5e1;
@@ -62,6 +64,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  padding-left: 0px;
 }
 .failure-container {
   display: flex;
@@ -93,4 +96,10 @@
   padding: 5px;
   cursor: pointer;
   border-radius: 5px;
+}
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -3,7 +3,47 @@ import Cookies from 'js-cookie'
 import {AiOutlineSearch} from 'react-icons/ai'
 import Loader from 'react-loader-spinner'
 import JobCard from '../JobCard'
+import UserProfile from '../UserProfile'
+import Filters from '../Filters'
 import './index.css'
+
+const employmentTypesList = [
+  {
+    label: 'Full Time',
+    employmentTypeId: 'FULLTIME',
+  },
+  {
+    label: 'Part Time',
+    employmentTypeId: 'PARTTIME',
+  },
+  {
+    label: 'Freelance',
+    employmentTypeId: 'FREELANCE',
+  },
+  {
+    label: 'Internship',
+    employmentTypeId: 'INTERNSHIP',
+  },
+]
+
+const salaryRangesList = [
+  {
+    salaryRangeId: '1000000',
+    label: '10 LPA and above',
+  },
+  {
+    salaryRangeId: '2000000',
+    label: '20 LPA and above',
+  },
+  {
+    salaryRangeId: '3000000',
+    label: '30 LPA and above',
+  },
+  {
+    salaryRangeId: '4000000',
+    label: '40 LPA and above',
+  },
+]
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -17,6 +57,8 @@ class JobsList extends Component {
     searchInput: '',
     jobsList: [],
     apiStatus: apiStatusConstants.initial,
+    activeTypeOfEmployment: '',
+    activeSalaryRange: '',
   }
 
   componentDidMount() {
@@ -27,8 +69,9 @@ class JobsList extends Component {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
+    const {activeTypeOfEmployment, activeSalaryRange, searchInput} = this.state
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl = `https://apis.ccbp.in/jobs`
+    const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${activeTypeOfEmployment}&minimum_package=${activeSalaryRange}&search=${searchInput}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -61,6 +104,17 @@ class JobsList extends Component {
     }
   }
 
+  onClickRetry = () => {
+    this.setState(
+      {
+        activeTypeOfEmployment: '',
+        activeSalaryRange: '',
+        searchInput: '',
+      },
+      this.getJobDetails,
+    )
+  }
+
   renderFailure = () => (
     <div className="failure-container">
       <img
@@ -72,7 +126,11 @@ class JobsList extends Component {
       <p className="para-failure">
         We cannot seem to find the page you are looking for.
       </p>
-      <button className="retry-button" type="button" onClick={this.getJobsList}>
+      <button
+        className="retry-button"
+        type="button"
+        onClick={this.onClickRetry}
+      >
         Retry
       </button>
     </div>
@@ -112,6 +170,22 @@ class JobsList extends Component {
     )
   }
 
+  changeActiveTypeOfEmployment = activeTypeOfEmployment => {
+    this.setState({activeTypeOfEmployment}, this.getJobsList)
+  }
+
+  changeActiveSalaryRange = activeSalaryRange => {
+    this.setState({activeSalaryRange}, this.getJobsList)
+  }
+
+  enterSearchInput = () => {
+    this.getJobDetails()
+  }
+
+  changeSearchInput = searchInput => {
+    this.setState({searchInput})
+  }
+
   onChangeInput = event => {
     this.setState({searchInput: event.target.value})
   }
@@ -146,27 +220,43 @@ class JobsList extends Component {
   }
 
   render() {
-    const {searchInput} = this.state
+    const {searchInput, activeSalaryRange, activeTypeOfEmployment} = this.state
     return (
-      <div className="jobs-list-container-main">
-        <div className="search-container">
-          <input
-            type="search"
-            placeholder="Search"
-            className="search-input-box"
-            value={searchInput}
-            onChange={this.onChangeInput}
+      <div className="main-container">
+        <div className="left-container">
+          <UserProfile />
+          <hr className="line" />
+          <Filters
+            activeSalaryRange={activeSalaryRange}
+            activeTypeOfEmployment={activeTypeOfEmployment}
+            salaryRangesList={salaryRangesList}
+            employmentTypesList={employmentTypesList}
+            changeActiveSalaryRange={this.changeActiveSalaryRange}
+            changeActiveTypeOfEmployment={this.changeActiveTypeOfEmployment}
           />
-          <button
-            className="search-icon"
-            type="button"
-            testid="searchButton"
-            onClick={this.getJobsList}
-          >
-            <AiOutlineSearch className="icon" />
-          </button>
         </div>
-        {this.renderJobsList()}
+        <div className="right-container">
+          <div className="jobs-list-container-main">
+            <div className="search-container">
+              <input
+                type="search"
+                placeholder="Search"
+                className="search-input-box"
+                value={searchInput}
+                onChange={this.onChangeInput}
+              />
+              <button
+                className="search-icon"
+                type="button"
+                testid="searchButton"
+                onClick={this.getJobsList}
+              >
+                <AiOutlineSearch className="icon" />
+              </button>
+            </div>
+            {this.renderJobsList()}
+          </div>
+        </div>
       </div>
     )
   }

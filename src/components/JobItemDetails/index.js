@@ -23,7 +23,7 @@ class JobItemDetails extends Component {
     similarJobsData: [],
     skills: [],
     lifeAtCompany: {},
-    quantity: 1,
+    isLoading: false,
   }
 
   componentDidMount() {
@@ -34,7 +34,8 @@ class JobItemDetails extends Component {
     const {match} = this.props
     const {params} = match
     const {id} = params
-    this.setState({apiStatus: apiStatusConstants.inprogress})
+
+    this.setState({apiStatus: apiStatusConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
     const apiUrl = `https://apis.ccbp.in/jobs/${id}`
     const options = {
@@ -82,52 +83,59 @@ class JobItemDetails extends Component {
         similarJobsData: updatedSimilarJobs,
       })
     }
-
-    if (response.ok === 404) {
+    if (response.status === 404) {
       this.setState({apiStatus: apiStatusConstants.failure})
-      this.renderFailure()
+      this.renderFailureView()
     }
   }
 
   renderSuccess = () => {
-    const {jobItemDetails, skills, lifeAtCompany, similarJobsData} = this.state
-    return (
+    const {
+      jobItemDetails,
+      skills,
+      lifeAtCompany,
+      similarJobsData,
+      isLoading,
+    } = this.state
+    return isLoading ? (
+      this.renderLoadingView()
+    ) : (
       <div className="detail-container">
-        <div className="total-content">
+        <ul className="total-content">
           <JobItemPops jobFullDetails={jobItemDetails} skillDetails={skills} />
           <h1 className="skill-title">Skills</h1>
-          <li className="all-skills">
+          <ul className="all-skills">
             {skills.map(skill => (
-              <SkillProps skillDetails={skill} />
+              <SkillProps skillDetails={skill} key={skill.id} />
             ))}
-          </li>
+          </ul>
           <h1 className="lac-title">Life at Company</h1>
-          <li className="all-lac">
+          <ul className="all-lac">
             <LacProps lacDetails={lifeAtCompany} />
-          </li>
-        </div>
+          </ul>
+        </ul>
         <div className="similar-job-container">
           <h1 className="similar-title">Similar Jobs</h1>
-          <div className="similar-jobs-list">
+          <ul className="similar-jobs-list">
             {similarJobsData.map(eachSimilar => (
               <SimilarJobsItem
                 similarJobsDetails={eachSimilar}
                 key={eachSimilar.id}
               />
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     )
   }
 
-  renderLoading = () => (
-    <div className="loader-container" testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+  renderLoadingView = () => (
+    <div className="jobs-details-loader-container" testid="loader">
+      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
     </div>
   )
 
-  renderFailure = () => (
+  renderFailureView = () => (
     <div className="failure-container">
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
@@ -152,12 +160,12 @@ class JobItemDetails extends Component {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
+      case apiStatusConstants.inProgress:
+        return this.renderLoadingView()
       case apiStatusConstants.success:
         return this.renderSuccess()
       case apiStatusConstants.failure:
-        return this.renderFailure()
-      case apiStatusConstants.inProgress:
-        return this.renderLoading()
+        return this.renderFailureView()
       default:
         return null
     }
@@ -167,7 +175,7 @@ class JobItemDetails extends Component {
     return (
       <>
         <Header />
-        <div>{this.renderJobItemDetails()}</div>
+        <div className="detail-container">{this.renderJobItemDetails()}</div>
       </>
     )
   }

@@ -1,7 +1,8 @@
 .jobs-list-container-main {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 95%;
+  margin-left: 30px;
 }
 .search-container {
   display: flex;
@@ -107,4 +108,28 @@
   font-size: 12px;
   font-family: 'Roboto';
   font-weight: 400;
+}
+.main-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 30px;
+  padding: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+.left-container {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+.line {
+  color: #b6c5ff;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.right-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }

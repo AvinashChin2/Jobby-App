@@ -16,6 +16,7 @@ class UserProfile extends Component {
   state = {
     profileDetails: [],
     apiStatus: apiStatusConstants.initial,
+    isLoading: false,
   }
 
   componentDidMount() {
@@ -49,13 +50,15 @@ class UserProfile extends Component {
       this.setState({
         apiStatus: apiStatusConstants.failure,
       })
+      this.renderFailure()
     }
   }
 
   renderSuccess = () => {
-    const {profileDetails} = this.state
-
-    return (
+    const {profileDetails, isLoading} = this.state
+    return isLoading ? (
+      this.renderLoadingView()
+    ) : (
       <>
         <UserProfileDetails userDetails={profileDetails} />
       </>
@@ -75,7 +78,7 @@ class UserProfile extends Component {
   )
 
   renderLoadingView = () => (
-    <div className="loader-container" testid="loader">
+    <div className="loader-spin-container" testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   )
@@ -88,7 +91,7 @@ class UserProfile extends Component {
         return this.renderSuccess()
       case apiStatusConstants.failure:
         return this.renderFailure()
-      case apiStatusConstants.loading:
+      case apiStatusConstants.inProgress:
         return this.renderLoadingView()
       default:
         return null

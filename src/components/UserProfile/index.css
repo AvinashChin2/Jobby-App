@@ -21,11 +21,12 @@
   cursor: pointer;
   border-radius: 5px;
 }
-.loader-container {
+.loader-spin-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 20vh;
 }
 .button-container {
   display: flex;
